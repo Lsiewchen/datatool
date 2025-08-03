@@ -9,10 +9,12 @@ public class Invoker { //sc
     private static Command[] cmdToExecute;
 
     public static void setCommandsForExecution(Command[] cmd){
-        //set
+        cmdToExecute = cmd;
     }
 
     public static void executeCommand(Stack<Command> history){
-        //execute
+        for (Command command : cmdToExecute){
+            command.execute();
+        }
     }
 }
