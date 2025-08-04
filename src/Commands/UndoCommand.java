@@ -1,6 +1,6 @@
 package Commands;
 
-import Tools.Receiver;
+import Receiver.Receiver;
 
 import java.util.Stack;
 
@@ -8,14 +8,13 @@ public class UndoCommand implements Command {
     private Receiver receiver;
     private Stack<Command> history;
 
-    public UndoCommand(Receiver receiver, Stack<Command> history){
+    public UndoCommand(Receiver receiver){
         this.receiver = receiver;
-        this.history = history;
     }
 
     @Override
-    public void execute() {
-        receiver.undo(history);
+    public void execute(Stack<Command> history) {
+        history.pop().undo();
     }
 
     @Override

@@ -1,6 +1,8 @@
 package Commands;
 
-import Tools.Receiver;
+import Receiver.Receiver;
+
+import java.util.Stack;
 
 public class ListCommand implements Command {
     private Receiver receiver;
@@ -10,7 +12,7 @@ public class ListCommand implements Command {
     }
 
     @Override
-    public void execute() {
+    public void execute(Stack<Command> history) {
         receiver.list();
     }
 

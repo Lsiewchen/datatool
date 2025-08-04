@@ -1,6 +1,8 @@
 package Commands;
 
-import Tools.Receiver;
+import Receiver.Receiver;
+
+import java.util.Stack;
 
 public class DeleteCommand implements Command {
     private Receiver receiver;
@@ -10,11 +12,12 @@ public class DeleteCommand implements Command {
     public DeleteCommand(Receiver receiver, String payload){
         this.receiver = receiver;
         this.index = Integer.parseInt(payload) - 1;
-        this.undo = receiver.retrieveLine(index);
     }
 
     @Override
-    public void execute() {
+    public void execute(Stack<Command> history) {
+        history.push(this);
+        this.undo = receiver.retrieveLine(index);
         receiver.delete(index);
     }
 

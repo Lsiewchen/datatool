@@ -1,6 +1,8 @@
 package Commands;
 
-import Tools.Receiver;
+import Receiver.Receiver;
+
+import java.util.Stack;
 
 public class AddCommand implements Command {
     private Receiver receiver;
@@ -15,7 +17,8 @@ public class AddCommand implements Command {
     }
 
     @Override
-    public void execute() {
+    public void execute(Stack<Command> history) {
+        history.push(this);
         receiver.add(data1, data2, data3);
     }
 

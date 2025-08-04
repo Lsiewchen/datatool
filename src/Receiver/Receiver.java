@@ -1,6 +1,4 @@
-package Tools;
-
-import Commands.Command;
+package Receiver;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -8,13 +6,12 @@ import java.io.IOException;
 import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Receiver {
     private List<String> dataStore = new ArrayList<>();
-    private Path path = Paths.get("./src/dataStore.txt"); //backwards compatible up to Java 8
+    private Path path = Paths.get("./src/dataStore.txt");
 
     public Receiver() {
         loadFromFile();
@@ -48,11 +45,10 @@ public class Receiver {
         }
     }
 
-    public void add(String data1, String data2, String data3) { //sc
+    public void add(String data1, String data2, String data3) {
         if (isValidEmailFormat(data3)) {
             dataStore.add(convertTitleCase(data1) + " " +
                     convertTitleCase(data2) + " " + data3);
-            saveToFile();
             System.out.println("add");
         }
         else {
@@ -61,13 +57,12 @@ public class Receiver {
 
     }
 
-    public void add(int index, String data1, String data2, String data3) { //sc
+    public void add(int index, String data1, String data2, String data3) {
         dataStore.add(index, convertTitleCase(data1) + " " +
                 convertTitleCase(data2) + " " + data3);
-        saveToFile();
     }
 
-    public void update(int index, String data1, String data2, String data3) { //sc
+    public void update(int index, String data1, String data2, String data3) {
         if (index < 0 || index > dataStore.size()-1) {
             System.out.println("Invalid index entered");
             return;
@@ -83,26 +78,19 @@ public class Receiver {
         String newData2 = (data2 == null) ? datas[1] : convertTitleCase(data2);
         String newData3 = (data3 == null) ? datas[2] : data3;
         dataStore.set(index, newData1 + " "  + newData2 + " " + newData3);
-        saveToFile();
         System.out.println("update");
     }
 
-    public void delete(int index) { //yr
+    public void delete(int index) {
         if (index < 0 || index > dataStore.size()-1) {
             System.out.println("Invalid index entered");
             return;
         }
         dataStore.remove(index);
-        saveToFile();
         System.out.println("delete");
     }
 
-    public void undo(Stack<Command> history) { //yr
-        history.pop().undo();
-        System.out.println("undo");
-    }
-
-    public void list() { //yr
+    public void list() {
         System.out.println("List");
         for (int i = 0; i < dataStore.size(); i++) {
             System.out.printf("%02d. %s\n", i+1, dataStore.get(i));

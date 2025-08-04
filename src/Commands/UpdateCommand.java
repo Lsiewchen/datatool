@@ -1,6 +1,8 @@
 package Commands;
 
-import Tools.Receiver;
+import Receiver.Receiver;
+
+import java.util.Stack;
 
 public class UpdateCommand implements Command {
     private int index;
@@ -21,11 +23,12 @@ public class UpdateCommand implements Command {
         if (datas.length > 3) {
             this.data3 = datas[3];
         }
-        this.oldData = receiver.retrieveLine(index);
     }
 
     @Override
-    public void execute() {
+    public void execute(Stack<Command> history) {
+        history.push(this);
+        this.oldData = receiver.retrieveLine(index);
         receiver.update(index, data1, data2, data3);
     }
 
