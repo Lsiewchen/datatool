@@ -32,7 +32,7 @@ public class Receiver {
         }
     }
 
-    public void saveToFile() {
+    public void storeToFile() {
         try (BufferedWriter bw = Files.newBufferedWriter(path,
                 StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING)) {
             for (String line : dataStore) {
