@@ -59,7 +59,7 @@ public class Receiver {
     }
 
     public void update(int index, String data1, String data2, String data3) { //sc
-        if (index < 1 || index > dataStore.size()) {
+        if (index < 0 || index > dataStore.size()-1) {
             System.out.println("Invalid index entered");
             return;
         }
@@ -68,18 +68,24 @@ public class Receiver {
             return;
         }
 
-        String retreivedLine = dataStore.get(index-1);
+        String retreivedLine = retrieveLine(index);
         String[] datas = retreivedLine.split(" ");
         String newData1 = convertTitleCase(data1);
         String newData2 = (data2 == null) ? datas[1] : convertTitleCase(data2);
         String newData3 = (data3 == null) ? datas[2] : data3;
-        dataStore.set(index-1, newData1 + " "  + newData2 + " " + newData3);
+        dataStore.set(index, newData1 + " "  + newData2 + " " + newData3);
         saveToFile();
         System.out.println("update");
     }
 
-    public void delete() { //yr
-        //change the parameter accordingly
+    public void delete(int index) { //yr
+        if (index < 0 || index > dataStore.size()-1) {
+            System.out.println("Invalid index entered");
+            return;
+        }
+        dataStore.remove(index);
+        saveToFile();
+        System.out.println("delete");
     }
 
     public void undo() { //yr
@@ -87,7 +93,10 @@ public class Receiver {
     }
 
     public void list() { //yr
-
+        System.out.println("List");
+        for (int i = 0; i < dataStore.size(); i++) {
+            System.out.printf("%02d. %s\n", i+1, dataStore.get(i));
+        }
     }
 
     public boolean isValidEmailFormat(String email) {
@@ -102,5 +111,9 @@ public class Receiver {
 
     public String convertTitleCase(String title) {
         return  title.substring(0, 1).toUpperCase() + title.substring(1);
+    }
+
+    public String retrieveLine(int index) {
+        return dataStore.get(index);
     }
 }
