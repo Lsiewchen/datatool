@@ -18,4 +18,9 @@ public class AddCommand implements Command {
     public void execute() {
         receiver.add(data1, data2, data3);
     }
+
+    @Override
+    public void undo() {
+        receiver.delete(receiver.getDataStoreSize()-1);
+    }
 }

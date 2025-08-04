@@ -8,7 +8,7 @@ public class UpdateCommand implements Command {
     private String data1;
     private String data2;
     private String data3;
-    private String undo;
+    private String oldData;
 
     public UpdateCommand(Receiver receiver, String payload) {
         this.receiver = receiver;
@@ -21,12 +21,17 @@ public class UpdateCommand implements Command {
         if (datas.length > 3) {
             this.data3 = datas[3];
         }
-//        this.undo = receiver.retrieveLine(index);
-        System.out.println(index);
+        this.oldData = receiver.retrieveLine(index);
     }
 
     @Override
     public void execute() {
         receiver.update(index, data1, data2, data3);
+    }
+
+    @Override
+    public void undo() {
+        String[] datas = oldData.split(" ");
+        receiver.update(index, datas[0], datas[1], datas[2]);
     }
 }

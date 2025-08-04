@@ -1,11 +1,14 @@
 package Tools;
 
+import Commands.Command;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -58,6 +61,12 @@ public class Receiver {
 
     }
 
+    public void add(int index, String data1, String data2, String data3) { //sc
+        dataStore.add(index, convertTitleCase(data1) + " " +
+                convertTitleCase(data2) + " " + data3);
+        saveToFile();
+    }
+
     public void update(int index, String data1, String data2, String data3) { //sc
         if (index < 0 || index > dataStore.size()-1) {
             System.out.println("Invalid index entered");
@@ -88,8 +97,9 @@ public class Receiver {
         System.out.println("delete");
     }
 
-    public void undo() { //yr
-
+    public void undo(Stack<Command> history) { //yr
+        history.pop().undo();
+        System.out.println("undo");
     }
 
     public void list() { //yr
@@ -115,5 +125,9 @@ public class Receiver {
 
     public String retrieveLine(int index) {
         return dataStore.get(index);
+    }
+
+    public int getDataStoreSize() {
+        return dataStore.size();
     }
 }
