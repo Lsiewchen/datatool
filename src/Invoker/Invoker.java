@@ -1,10 +1,10 @@
-package Tools;
+package Invoker;
 
 import Commands.*;
 
 import java.util.Stack;
 
-public class Invoker { //sc
+public class Invoker {
 
     private static Command[] cmdToExecute;
 
@@ -13,10 +13,8 @@ public class Invoker { //sc
     }
 
     public static void executeCommand(Stack<Command> history){
-        for (Command command : cmdToExecute){
-//            history.push(command);
-            command.execute();
+        for (Command command : cmdToExecute) {
+            command.execute(history);
         }
-
     }
 }

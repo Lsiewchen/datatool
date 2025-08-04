@@ -1,9 +1,7 @@
 import Commands.*;
-import Tools.Invoker;
-import Tools.Receiver;
+import Receiver.Receiver;
+import Invoker.Invoker;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Stack;
 
 public class Client {
@@ -11,7 +9,7 @@ public class Client {
 
     //Add
     /*public static void main(String[] args) {
-        Receiver receiver = new Tools.Receiver();
+        Receiver receiver = new Receiver();
         //Test Local
         Command commandAdd1 = new AddCommand(receiver, "John Doe 1abc-def.ghi@example.com"); //pass
         Command commandAdd2 = new AddCommand(receiver, "John doe 2abc-_def@example.com"); //pass
@@ -36,7 +34,7 @@ public class Client {
 
     //Update
     /*public static void main(String[] args) {
-        Receiver receiver = new Tools.Receiver();
+        Receiver receiver = new Receiver();
 
         Command commandUpdate1 = new UpdateCommand(receiver, "1 John update1 1abc-def.ghi@example.com"); //pass
         Command commandUpdate2 = new UpdateCommand(receiver, "2 John update2"); //pass
@@ -53,7 +51,7 @@ public class Client {
 
     //Delete
     /*public static void main(String[] args) {
-        Receiver receiver = new Tools.Receiver();
+        Receiver receiver = new Receiver();
         Command commandDelete1 = new DeleteCommand(receiver, "3");
         Command commandDelete2 = new DeleteCommand(receiver, "7");
         Command[] commands = {commandDelete1, commandDelete2};
@@ -64,7 +62,7 @@ public class Client {
 
     //List
     /*public static void main(String[] args) {
-        Receiver receiver = new Tools.Receiver();
+        Receiver receiver = new Receiver();
         Command commandList1 = new ListCommand(receiver);
         Command[] commands = {commandList1};
 
@@ -74,20 +72,18 @@ public class Client {
 
     //Undo
     /*public static void main(String[] args) {
-        Receiver receiver = new Tools.Receiver();
+        Receiver receiver = new Receiver();
         Command commandAdd1 = new AddCommand(receiver, "John Doe 1abc-def.ghi@example.com");
         Command commandAdd2 = new AddCommand(receiver, "Hanna Moon 2abc-_def@example.com");
         Command commandDelete1 = new DeleteCommand(receiver,"1");
-        Command commandUndo1 = new UndoCommand(receiver, history);
+        Command commandUndo1 = new UndoCommand(receiver);
         Command commandUpdate1 = new UpdateCommand(receiver, "2 Update Moon 2abc-_def@example.com");
-
-        history.push(commandAdd1);
-        history.push(commandAdd2);
-        history.push(commandDelete1);
-        history.push(commandUpdate1);
-        Command[] commands = {commandAdd1, commandAdd2, commandDelete1};
+        Command commandList1 = new ListCommand(receiver);
+        Command[] commands = {commandAdd1, commandAdd2, commandDelete1, commandUndo1, commandUpdate1, commandList1};
 
         Invoker.setCommandsForExecution(commands);
         Invoker.executeCommand(history);
+
+//        receiver.saveToFile();
     }*/
 }
