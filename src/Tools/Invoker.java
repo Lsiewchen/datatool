@@ -14,8 +14,9 @@ public class Invoker { //sc
 
     public static void executeCommand(Stack<Command> history){
         for (Command command : cmdToExecute){
-            history.push(command);
+//            history.push(command);
             command.execute();
         }
+
     }
 }

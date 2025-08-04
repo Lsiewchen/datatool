@@ -13,4 +13,7 @@ public class ListCommand implements Command {
     public void execute() {
         receiver.list();
     }
+
+    @Override
+    public void undo() {}
 }

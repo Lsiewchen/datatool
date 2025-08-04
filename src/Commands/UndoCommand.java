@@ -14,5 +14,10 @@ public class UndoCommand implements Command {
     }
 
     @Override
-    public void execute() {}
+    public void execute() {
+        receiver.undo(history);
+    }
+
+    @Override
+    public void undo() {}
 }

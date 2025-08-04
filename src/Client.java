@@ -75,11 +75,17 @@ public class Client {
     //Undo
     /*public static void main(String[] args) {
         Receiver receiver = new Tools.Receiver();
-        Command commandAdd1 = new AddCommand(receiver, "John", "Doe", "1abc-def.ghi@example.com");
-        Command commandAdd2 = new AddCommand(receiver, "Hanna", "Moon", "2abc-_def@example.com");
-        Command commandUndo3 = new UndoCommand(receiver, history);
+        Command commandAdd1 = new AddCommand(receiver, "John Doe 1abc-def.ghi@example.com");
+        Command commandAdd2 = new AddCommand(receiver, "Hanna Moon 2abc-_def@example.com");
+        Command commandDelete1 = new DeleteCommand(receiver,"1");
+        Command commandUndo1 = new UndoCommand(receiver, history);
+        Command commandUpdate1 = new UpdateCommand(receiver, "2 Update Moon 2abc-_def@example.com");
 
-        Command[] commands = {commandAdd1, commandAdd2,  commandUndo3};
+        history.push(commandAdd1);
+        history.push(commandAdd2);
+        history.push(commandDelete1);
+        history.push(commandUpdate1);
+        Command[] commands = {commandAdd1, commandAdd2, commandDelete1};
 
         Invoker.setCommandsForExecution(commands);
         Invoker.executeCommand(history);
