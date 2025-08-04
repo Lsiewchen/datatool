@@ -8,21 +8,21 @@ public class UpdateCommand implements Command {
     private String data1;
     private String data2;
     private String data3;
+    private String undo;
 
-    public UpdateCommand(Receiver receiver, int index, String data1) {
+    public UpdateCommand(Receiver receiver, String payload) {
         this.receiver = receiver;
-        this.index = index;
-        this.data1 = data1;
-    }
-
-    public UpdateCommand(Receiver receiver, int index, String data1, String data2) {
-        this(receiver, index, data1);
-        this.data2 = data2;
-    }
-
-    public UpdateCommand(Receiver receiver, int index, String data1, String data2, String data3) {
-        this(receiver, index, data1, data2);
-        this.data3 = data3;
+        String[] datas =  payload.split(" ");
+        this.index = Integer.parseInt(datas[0]) - 1;
+        this.data1 = datas[1];
+        if (datas.length > 2) {
+            this.data2 = datas[2];
+        }
+        if (datas.length > 3) {
+            this.data3 = datas[3];
+        }
+//        this.undo = receiver.retrieveLine(index);
+        System.out.println(index);
     }
 
     @Override

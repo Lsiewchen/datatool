@@ -1,6 +1,6 @@
 package Tools;
 
-import Commands.Command;
+import Commands.*;
 
 import java.util.Stack;
 
@@ -14,6 +14,7 @@ public class Invoker { //sc
 
     public static void executeCommand(Stack<Command> history){
         for (Command command : cmdToExecute){
+            history.push(command);
             command.execute();
         }
     }
