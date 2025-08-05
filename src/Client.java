@@ -84,6 +84,6 @@ public class Client {
         Invoker.setCommandsForExecution(commands);
         Invoker.executeCommand(history);
 
-//        receiver.saveToFile();
+        receiver.storeToFile();
     }*/
 }

@@ -39,6 +39,7 @@ public class UndoCommand implements Command {
     @Override
     public void execute(Stack<Command> history) {
         history.pop().undo();
+        System.out.println("undo");
     }
 
     /**

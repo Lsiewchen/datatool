@@ -26,7 +26,7 @@ public class DeleteCommand implements Command {
      * Variable containing the original data retrieved prior to deletion,
      * used to restore the entry during an undo operation.
      */
-    private String undo;
+    private String oldData;
 
     /**
      * Constructor for DeleteCommand with specified receiver and payload.
@@ -48,9 +48,14 @@ public class DeleteCommand implements Command {
      */
     @Override
     public void execute(Stack<Command> history) {
-        history.push(this);
-        this.undo = receiver.retrieveLine(index); // stores data that was deleted in undo
+        if (index < 0 || index > receiver.getDataStoreSize()-1) {
+            System.out.println("Invalid index entered");
+            return;
+        }
+        this.oldData = receiver.retrieveLine(index); // stores data that was deleted
         receiver.delete(index);
+        history.push(this);
+        System.out.println("delete");
     }
 
     /**
@@ -59,7 +64,7 @@ public class DeleteCommand implements Command {
      */
     @Override
     public void undo() {
-        String[] datas = undo.split(" "); // prepare data to be added back
+        String[] datas = oldData.split(" "); // prepare data to be added back
         receiver.add(index, datas[0], datas[1], datas[2]); // overloaded add method in receiver to insert at old index
     }
 }

@@ -3,6 +3,8 @@ package Commands;
 import Receiver.Receiver;
 
 import java.util.Stack;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * An implementation of the Command interface responsible for performing
@@ -32,8 +34,8 @@ public class AddCommand implements Command {
     public AddCommand(Receiver receiver, String payload) {
         this.receiver = receiver;
         String[] datas =  payload.split(" ");
-        this.data1 = datas[0];
-        this.data2 = datas[1];
+        this.data1 = convertTitleCase(datas[0]);
+        this.data2 = convertTitleCase(datas[1]);
         this.data3 = datas[2];
     }
 
@@ -46,8 +48,13 @@ public class AddCommand implements Command {
      */
     @Override
     public void execute(Stack<Command> history) {
-        history.push(this);
+        if (!isValidEmailFormat(data3)) {
+            System.out.println("Invalid email address entered");
+            return;
+        }
         receiver.add(data1, data2, data3);
+        history.push(this);
+        System.out.println("add");
     }
 
     /**
@@ -57,5 +64,19 @@ public class AddCommand implements Command {
     @Override
     public void undo() {
         receiver.delete(receiver.getDataStoreSize()-1); // calls delete on last index
+    }
+
+    private String convertTitleCase(String title) {
+        return  title.substring(0, 1).toUpperCase() + title.substring(1);
+    }
+
+    private boolean isValidEmailFormat(String email) {
+        if (email == null) {
+            return false;
+        }
+        Pattern pattern = Pattern.compile
+                ("^\\w+(?:[.-]?\\w+)*@[a-zA-Z0-9]+(?:[.-]?[a-zA-Z0-9]+)*\\.[a-z]{2,3}$");
+        Matcher matcher = pattern.matcher(email);
+        return matcher.find();
     }
 }

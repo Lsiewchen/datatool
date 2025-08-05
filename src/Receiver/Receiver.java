@@ -46,48 +46,23 @@ public class Receiver {
     }
 
     public void add(String data1, String data2, String data3) {
-        if (isValidEmailFormat(data3)) {
-            dataStore.add(convertTitleCase(data1) + " " +
-                    convertTitleCase(data2) + " " + data3);
-            System.out.println("add");
-        }
-        else {
-            System.out.println("Invalid email address entered");
-        }
-
+        dataStore.add(data1 + " " + data2 + " " + data3);
     }
 
     public void add(int index, String data1, String data2, String data3) {
-        dataStore.add(index, convertTitleCase(data1) + " " +
-                convertTitleCase(data2) + " " + data3);
+        dataStore.add(index,data1 + " " + data2 + " " + data3);
     }
 
     public void update(int index, String data1, String data2, String data3) {
-        if (index < 0 || index > dataStore.size()-1) {
-            System.out.println("Invalid index entered");
-            return;
-        }
-        if (data3 != null && !isValidEmailFormat(data3)) {
-            System.out.println("Invalid email address entered");
-            return;
-        }
-
-        String retreivedLine = retrieveLine(index);
-        String[] datas = retreivedLine.split(" ");
-        String newData1 = convertTitleCase(data1);
-        String newData2 = (data2 == null) ? datas[1] : convertTitleCase(data2);
+        String retrievedLine = retrieveLine(index);
+        String[] datas = retrievedLine.split(" ");
+        String newData2 = (data2 == null) ? datas[1] : data2;
         String newData3 = (data3 == null) ? datas[2] : data3;
-        dataStore.set(index, newData1 + " "  + newData2 + " " + newData3);
-        System.out.println("update");
+        dataStore.set(index, data1 + " "  + newData2 + " " + newData3);
     }
 
     public void delete(int index) {
-        if (index < 0 || index > dataStore.size()-1) {
-            System.out.println("Invalid index entered");
-            return;
-        }
         dataStore.remove(index);
-        System.out.println("delete");
     }
 
     public void list() {
@@ -95,20 +70,6 @@ public class Receiver {
         for (int i = 0; i < dataStore.size(); i++) {
             System.out.printf("%02d. %s\n", i+1, dataStore.get(i));
         }
-    }
-
-    public boolean isValidEmailFormat(String email) {
-        if (email == null) {
-            return false;
-        }
-        Pattern pattern = Pattern.compile
-                ("^\\w+(?:[.-]?\\w+)*@[a-zA-Z0-9]+(?:[.-]?[a-zA-Z0-9]+)*\\.[a-z]{2,3}$");
-        Matcher matcher = pattern.matcher(email);
-        return matcher.find();
-    }
-
-    public String convertTitleCase(String title) {
-        return  title.substring(0, 1).toUpperCase() + title.substring(1);
     }
 
     public String retrieveLine(int index) {

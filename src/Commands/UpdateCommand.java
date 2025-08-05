@@ -3,6 +3,8 @@ package Commands;
 import Receiver.Receiver;
 
 import java.util.Stack;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * An implementation of the Command interface responsible for performing
@@ -43,10 +45,10 @@ public class UpdateCommand implements Command {
         this.receiver = receiver;
         String[] datas =  payload.split(" ");
         this.index = Integer.parseInt(datas[0]) - 1;
-        this.data1 = datas[1];
+        this.data1 = convertTitleCase(datas[1]);
 
         if (datas.length > 2) {
-            this.data2 = datas[2];
+            this.data2 = convertTitleCase(datas[2]);
         }
 
         if (datas.length > 3) {
@@ -63,9 +65,18 @@ public class UpdateCommand implements Command {
      */
     @Override
     public void execute(Stack<Command> history) {
-        history.push(this);
-        this.oldData = receiver.retrieveLine(index);
+        if (index < 0 || index > receiver.getDataStoreSize()-1) {
+            System.out.println("Invalid index entered");
+            return;
+        }
+        if (data3 != null && !isValidEmailFormat(data3)) {
+            System.out.println("Invalid email address entered");
+            return;
+        }
+        this.oldData = receiver.retrieveLine(index); // stores data that was updated
         receiver.update(index, data1, data2, data3);
+        history.push(this);
+        System.out.println("update");
     }
 
     /**
@@ -76,5 +87,19 @@ public class UpdateCommand implements Command {
     public void undo() {
         String[] datas = oldData.split(" ");
         receiver.update(index, datas[0], datas[1], datas[2]);
+    }
+
+    private String convertTitleCase(String title) {
+        return  title.substring(0, 1).toUpperCase() + title.substring(1);
+    }
+
+    private boolean isValidEmailFormat(String email) {
+        if (email == null) {
+            return false;
+        }
+        Pattern pattern = Pattern.compile
+                ("^\\w+(?:[.-]?\\w+)*@[a-zA-Z0-9]+(?:[.-]?[a-zA-Z0-9]+)*\\.[a-z]{2,3}$");
+        Matcher matcher = pattern.matcher(email);
+        return matcher.find();
     }
 }
