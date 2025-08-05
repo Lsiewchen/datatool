@@ -72,7 +72,7 @@ public class Receiver {
         }
     }
 
-    public String retrieveLine(int index) {
+    public String retrieveLine(int index) throws IndexOutOfBoundsException{
         return dataStore.get(index);
     }
 

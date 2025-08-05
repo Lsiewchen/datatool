@@ -1,5 +1,6 @@
 package Commands;
 
+import CustomExceptions.Exceptions.*;
 import Receiver.Receiver;
 
 import java.util.Stack;
@@ -22,7 +23,7 @@ public class AddCommand implements Command {
     /**
      * Variable containing the segments of input data from the payload.
      */
-    private String data1, data2, data3;
+    private String data1, data2, data3, payload;
 
     /**
      * Constructor for AddCommand with specified receiver and payload string.
@@ -33,10 +34,7 @@ public class AddCommand implements Command {
      */
     public AddCommand(Receiver receiver, String payload) {
         this.receiver = receiver;
-        String[] datas =  payload.split(" ");
-        this.data1 = convertTitleCase(datas[0]);
-        this.data2 = convertTitleCase(datas[1]);
-        this.data3 = datas[2];
+        this.payload = payload;
     }
 
     /**
@@ -48,13 +46,33 @@ public class AddCommand implements Command {
      */
     @Override
     public void execute(Stack<Command> history) {
-        if (!isValidEmailFormat(data3)) {
-            System.out.println("Invalid email address entered");
-            return;
+//        if (!isValidEmailFormat(data3)) {
+//            return;
+//        }
+//        receiver.add(data1, data2, data3);
+//        history.push(this);
+//        System.out.println("add");
+        try{
+            String[] datas =  payload.split(" ");
+            if (datas.length != 3)
+                throw new InvalidPayload("Incorrect payload!");
+            this.data1 = convertTitleCase(datas[0]);
+            this.data2 = convertTitleCase(datas[1]);
+            this.data3 = datas[2];
+
+            try{
+                isValidEmailFormat(data3);
+                receiver.add(data1, data2, data3);
+                history.push(this);
+                System.out.println("add");
+            } catch (InvalidEmailFormat e) {
+                System.out.println(e.getMessage());
+            }
+
+        } catch (InvalidPayload e) {
+            System.out.println(e.getMessage());
         }
-        receiver.add(data1, data2, data3);
-        history.push(this);
-        System.out.println("add");
+
     }
 
     /**
@@ -70,13 +88,15 @@ public class AddCommand implements Command {
         return  title.substring(0, 1).toUpperCase() + title.substring(1);
     }
 
-    private boolean isValidEmailFormat(String email) {
-        if (email == null) {
-            return false;
-        }
+    private boolean isValidEmailFormat(String email) throws InvalidEmailFormat {
         Pattern pattern = Pattern.compile
                 ("^\\w+(?:[.-]?\\w+)*@[a-zA-Z0-9]+(?:[.-]?[a-zA-Z0-9]+)*\\.[a-z]{2,3}$");
         Matcher matcher = pattern.matcher(email);
+
+        if (!matcher.find()) {
+            throw new InvalidEmailFormat("Email is in an invalid format.");
+        }
+
         return matcher.find();
     }
 }

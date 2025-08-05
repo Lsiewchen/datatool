@@ -48,14 +48,20 @@ public class DeleteCommand implements Command {
      */
     @Override
     public void execute(Stack<Command> history) {
-        if (index < 0 || index > receiver.getDataStoreSize()-1) {
-            System.out.println("Invalid index entered");
-            return;
+
+//        if (index < 0 || index > receiver.getDataStoreSize()-1) {
+//            System.out.println("Invalid index entered");
+//            return;
+//        }
+
+        try{
+            this.oldData = receiver.retrieveLine(index); // stores data that was deleted
+            receiver.delete(index);
+            history.push(this);
+            System.out.println("delete");
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Error: Invalid index entered");
         }
-        this.oldData = receiver.retrieveLine(index); // stores data that was deleted
-        receiver.delete(index);
-        history.push(this);
-        System.out.println("delete");
     }
 
     /**

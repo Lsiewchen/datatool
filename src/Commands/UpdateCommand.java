@@ -1,5 +1,6 @@
 package Commands;
 
+import CustomExceptions.Exceptions.*;
 import Receiver.Receiver;
 
 import java.util.Stack;
@@ -26,7 +27,7 @@ public class UpdateCommand implements Command {
     /**
      * Variable containing the segments of input data from the payload.
      */
-    private String data1, data2, data3;
+    private String data1, data2, data3, payload;
 
     /**
      * Variable containing the original data at the specified index,
@@ -43,17 +44,16 @@ public class UpdateCommand implements Command {
      */
     public UpdateCommand(Receiver receiver, String payload) {
         this.receiver = receiver;
-        String[] datas =  payload.split(" ");
-        this.index = Integer.parseInt(datas[0]) - 1;
-        this.data1 = convertTitleCase(datas[1]);
-
-        if (datas.length > 2) {
-            this.data2 = convertTitleCase(datas[2]);
-        }
-
-        if (datas.length > 3) {
-            this.data3 = datas[3];
-        }
+        this.payload = payload;
+//        String[] datas =  payload.split(" ");
+//        this.index = Integer.parseInt(datas[0]) - 1;
+//        this.data1 = convertTitleCase(datas[1]);
+//        if (datas.length > 2) {
+//            this.data2 = convertTitleCase(datas[2]);
+//        }
+//        if (datas.length > 3) {
+//            this.data3 = datas[3];
+//        }
     }
 
     /**
@@ -65,18 +65,35 @@ public class UpdateCommand implements Command {
      */
     @Override
     public void execute(Stack<Command> history) {
-        if (index < 0 || index > receiver.getDataStoreSize()-1) {
-            System.out.println("Invalid index entered");
-            return;
+        String[] datas =  payload.split(" ");
+        try{
+            if (datas.length > 4)
+                throw new InvalidPayload("Incorrect payload!");
+
+            this.index = Integer.parseInt(datas[0]) - 1;
+            this.oldData = receiver.retrieveLine(index); // stores data that was updated
+
+            this.data1 = convertTitleCase(datas[1]);
+            this.data2 = datas.length > 2 ? convertTitleCase(datas[2]) : this.data2;
+            this.data3 = datas.length > 3 ? datas[3] : this.data3;
+            if (data3 != null) {
+                isValidEmailFormat(data3);
+                receiver.update(index, data1, data2, data3);
+                history.push(this);
+                System.out.println("update");
+            }
+        } catch (InvalidPayload e) {
+            System.out.println(e.getMessage());
+        } catch (InvalidEmailFormat e) {
+            System.out.println(e.getMessage());
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Error: Invalid index entered");
         }
-        if (data3 != null && !isValidEmailFormat(data3)) {
-            System.out.println("Invalid email address entered");
-            return;
-        }
-        this.oldData = receiver.retrieveLine(index); // stores data that was updated
-        receiver.update(index, data1, data2, data3);
-        history.push(this);
-        System.out.println("update");
+
+//        if (index < 0 || index > receiver.getDataStoreSize()-1) {
+//            System.out.println("Invalid index entered");
+//            return;
+//        }
     }
 
     /**
@@ -93,13 +110,27 @@ public class UpdateCommand implements Command {
         return  title.substring(0, 1).toUpperCase() + title.substring(1);
     }
 
-    private boolean isValidEmailFormat(String email) {
-        if (email == null) {
-            return false;
-        }
+//    private boolean isValidEmailFormat(String email) {
+//        if (email == null) {
+//            return false;
+//        }
+//        Pattern pattern = Pattern.compile
+//                ("^\\w+(?:[.-]?\\w+)*@[a-zA-Z0-9]+(?:[.-]?[a-zA-Z0-9]+)*\\.[a-z]{2,3}$");
+//        Matcher matcher = pattern.matcher(email);
+//        return matcher.find();
+//    }
+
+    private boolean isValidEmailFormat(String email) throws InvalidEmailFormat {
         Pattern pattern = Pattern.compile
                 ("^\\w+(?:[.-]?\\w+)*@[a-zA-Z0-9]+(?:[.-]?[a-zA-Z0-9]+)*\\.[a-z]{2,3}$");
         Matcher matcher = pattern.matcher(email);
+
+        if (!matcher.find()) {
+            throw new InvalidEmailFormat("Email is in an invalid format.");
+        }
+
         return matcher.find();
     }
 }
+
+

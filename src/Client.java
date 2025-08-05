@@ -71,9 +71,9 @@ public class Client {
     }*/
 
     //Undo
-    /*public static void main(String[] args) {
+    public static void main(String[] args) {
         Receiver receiver = new Receiver();
-        Command commandAdd1 = new AddCommand(receiver, "John Doe 1abc-def.ghi@example.com");
+        Command commandAdd1 = new AddCommand(receiver, "John 1abc-def.ghi@example.com");
         Command commandAdd2 = new AddCommand(receiver, "Hanna Moon 2abc-_def@example.com");
         Command commandDelete1 = new DeleteCommand(receiver,"1");
         Command commandUndo1 = new UndoCommand(receiver);
@@ -85,5 +85,5 @@ public class Client {
         Invoker.executeCommand(history);
 
         receiver.storeToFile();
-    }*/
+    }
 }

@@ -2,6 +2,7 @@ package Commands;
 
 import Receiver.Receiver;
 
+import java.util.EmptyStackException;
 import java.util.Stack;
 
 /**
@@ -38,8 +39,13 @@ public class UndoCommand implements Command {
      */
     @Override
     public void execute(Stack<Command> history) {
-        history.pop().undo();
-        System.out.println("undo");
+
+        try {
+            history.pop().undo();
+            System.out.println("undo");
+        } catch (EmptyStackException e) {
+                System.out.println("Error! Nothing to undo.");
+            }
     }
 
     /**
