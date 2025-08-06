@@ -34,6 +34,7 @@ public class AddCommand implements Command {
     public AddCommand(Receiver receiver, String payload) {
         this.receiver = receiver;
         this.payload = Command.sanitizePayload(payload);
+        System.out.println(this.payload);
     }
 
     /**

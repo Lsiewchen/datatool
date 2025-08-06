@@ -18,17 +18,16 @@ public class Receiver {
     }
 
     private void loadFromFile() {
-        try (BufferedReader br = Files.newBufferedReader(path)) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                dataStore.add(line);
+        if (Files.exists(path)) {
+            try (BufferedReader br = Files.newBufferedReader(path)) {
+                String line;
+                while ((line = br.readLine()) != null) {
+                    dataStore.add(line);
+                }
             }
-        }
-        catch (NoSuchFileException e) {
-            System.out.println("File not found");
-        }
-        catch (IOException e) {
-            e.printStackTrace();
+            catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

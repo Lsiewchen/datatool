@@ -29,7 +29,7 @@ public interface Command {
     boolean isExecuted();
 
     static String convertTitleCase(String title) {
-        return  title.substring(0, 1).toUpperCase() + title.substring(1);
+        return  title.substring(0, 1).toUpperCase() + title.substring(1).toLowerCase();
     }
 
     static void isValidEmailFormat(String email) throws InvalidEmailFormat {
@@ -44,6 +44,7 @@ public interface Command {
     static String sanitizePayload(String payload) {
         return payload.replace("\n", "\\n")
                 .replace("\t", "\\t")
-                .replace("\r", "\\r");
+                .replace("\r", "\\r")
+                .replace("\f", "\\f");
     }
 }

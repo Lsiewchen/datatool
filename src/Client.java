@@ -97,7 +97,7 @@ public class Client {
 
     public static void main(String[] args) {
         Receiver receiver = new Receiver();
-        Command commandAdd1 = new AddCommand(receiver, "first_name last_name email");
+        Command commandAdd1 = new AddCommand(receiver, "fiRsT_NamE last_name emAil");
         Command commandAdd2 = new AddCommand(receiver, "7ohn doe simple@example.com");
         Command commandAdd3 = new AddCommand(receiver, "Hanna Moon tetter.tots@potatoesarelife.com");
         Command commandAdd4 = new DeleteCommand(receiver, "2");
@@ -109,9 +109,14 @@ public class Client {
 
         history.push(commandAdd4);
         Command commandUndo1 = new UndoCommand(receiver, history);
+        Command commandUndo2 = new UndoCommand(receiver, history);
+        Command commandUndo3 = new UndoCommand(receiver, history);
+        Command commandUndo4 = new UndoCommand(receiver, history);
+        Command commandUndo5 = new UndoCommand(receiver, history);
         Command commandList1 = new ListCommand(receiver);
 
-        Command[] commands2 = {commandUndo1, commandList1};
+        Command[] commands2 = {commandUndo1, commandUndo2, commandUndo3,
+                commandUndo4, commandUndo5, commandList1};
         Invoker.setCommandsForExecution(commands2);
         Invoker.executeCommand(history);
 //        receiver.storeToFile();
