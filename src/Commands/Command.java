@@ -1,6 +1,10 @@
 package Commands;
 
+import CustomExceptions.Exceptions.*;
+
 import java.util.Stack;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * This interface represents an executable command within a command pattern structure.
@@ -14,10 +18,23 @@ public interface Command {
      * the provided history stack (if needed - Add, Delete and Update).
      * @param history
      */
-    void execute(Stack<Command> history);
+    void execute(Stack<Command> history) throws InvalidPayload, InvalidEmailFormat;
 
     /**
      * Reverts the effects of a previously executed command from the following list (Add, Delete and Update).
      */
     void undo();
+
+    static String convertTitleCase(String title) {
+        return  title.substring(0, 1).toUpperCase() + title.substring(1);
+    }
+
+    static void isValidEmailFormat(String email) throws InvalidEmailFormat {
+        Pattern pattern = Pattern.compile
+                ("^\\w+(?:[.-]?\\w+)*@[a-zA-Z0-9]+(?:[.-]?[a-zA-Z0-9]+)*\\.[a-z]{2,3}$");
+        Matcher matcher = pattern.matcher(email);
+        if (!matcher.find()) {
+            throw new InvalidEmailFormat("Email format is invalid.");
+        }
+    }
 }

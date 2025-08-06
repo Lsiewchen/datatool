@@ -39,13 +39,11 @@ public class UndoCommand implements Command {
      */
     @Override
     public void execute(Stack<Command> history) {
-
-        try {
-            history.pop().undo();
-            System.out.println("undo");
-        } catch (EmptyStackException e) {
-                System.out.println("Error! Nothing to undo.");
-            }
+        if (history.isEmpty()){
+            throw new EmptyStackException();
+        }
+        history.pop().undo();
+        System.out.println("undo");
     }
 
     /**

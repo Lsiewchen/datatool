@@ -4,8 +4,6 @@ import CustomExceptions.Exceptions.*;
 import Receiver.Receiver;
 
 import java.util.Stack;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * An implementation of the Command interface responsible for performing
@@ -45,15 +43,6 @@ public class UpdateCommand implements Command {
     public UpdateCommand(Receiver receiver, String payload) {
         this.receiver = receiver;
         this.payload = payload;
-//        String[] datas =  payload.split(" ");
-//        this.index = Integer.parseInt(datas[0]) - 1;
-//        this.data1 = convertTitleCase(datas[1]);
-//        if (datas.length > 2) {
-//            this.data2 = convertTitleCase(datas[2]);
-//        }
-//        if (datas.length > 3) {
-//            this.data3 = datas[3];
-//        }
     }
 
     /**
@@ -64,36 +53,23 @@ public class UpdateCommand implements Command {
      * @param history the command history stack for tracking commands and enabling undo
      */
     @Override
-    public void execute(Stack<Command> history) {
+    public void execute(Stack<Command> history) throws InvalidPayload, InvalidEmailFormat {
         String[] datas =  payload.split(" ");
-        try{
-            if (datas.length > 4)
-                throw new InvalidPayload("Incorrect payload!");
-
-            this.index = Integer.parseInt(datas[0]) - 1;
-            this.oldData = receiver.retrieveLine(index); // stores data that was updated
-
-            this.data1 = convertTitleCase(datas[1]);
-            this.data2 = datas.length > 2 ? convertTitleCase(datas[2]) : this.data2;
-            this.data3 = datas.length > 3 ? datas[3] : this.data3;
-            if (data3 != null) {
-                isValidEmailFormat(data3);
-                receiver.update(index, data1, data2, data3);
-                history.push(this);
-                System.out.println("update");
-            }
-        } catch (InvalidPayload e) {
-            System.out.println(e.getMessage());
-        } catch (InvalidEmailFormat e) {
-            System.out.println(e.getMessage());
-        } catch (IndexOutOfBoundsException e) {
-            System.out.println("Error: Invalid index entered");
+        if (datas.length > 4) {
+            throw new InvalidPayload("Incorrect payload!");
         }
+        this.index = Integer.parseInt(datas[0]) - 1;
+        this.oldData = receiver.retrieveLine(index); // stores data that was updated
 
-//        if (index < 0 || index > receiver.getDataStoreSize()-1) {
-//            System.out.println("Invalid index entered");
-//            return;
-//        }
+        this.data1 = Command.convertTitleCase(datas[1]);
+        this.data2 = datas.length > 2 ? Command.convertTitleCase(datas[2]) : this.data2;
+        this.data3 = datas.length > 3 ? datas[3] : this.data3;
+        if (data3 != null) {
+            Command.isValidEmailFormat(data3);
+        }
+        receiver.update(index, data1, data2, data3);
+        history.push(this);
+        System.out.println("update");
     }
 
     /**
@@ -104,32 +80,6 @@ public class UpdateCommand implements Command {
     public void undo() {
         String[] datas = oldData.split(" ");
         receiver.update(index, datas[0], datas[1], datas[2]);
-    }
-
-    private String convertTitleCase(String title) {
-        return  title.substring(0, 1).toUpperCase() + title.substring(1);
-    }
-
-//    private boolean isValidEmailFormat(String email) {
-//        if (email == null) {
-//            return false;
-//        }
-//        Pattern pattern = Pattern.compile
-//                ("^\\w+(?:[.-]?\\w+)*@[a-zA-Z0-9]+(?:[.-]?[a-zA-Z0-9]+)*\\.[a-z]{2,3}$");
-//        Matcher matcher = pattern.matcher(email);
-//        return matcher.find();
-//    }
-
-    private boolean isValidEmailFormat(String email) throws InvalidEmailFormat {
-        Pattern pattern = Pattern.compile
-                ("^\\w+(?:[.-]?\\w+)*@[a-zA-Z0-9]+(?:[.-]?[a-zA-Z0-9]+)*\\.[a-z]{2,3}$");
-        Matcher matcher = pattern.matcher(email);
-
-        if (!matcher.find()) {
-            throw new InvalidEmailFormat("Email is in an invalid format.");
-        }
-
-        return matcher.find();
     }
 }
 
