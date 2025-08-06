@@ -60,4 +60,9 @@ public class DeleteCommand implements Command {
         String[] datas = oldData.split(" "); // prepare data to be added back
         receiver.add(index, datas[0], datas[1], datas[2]); // overloaded add method in receiver to insert at old index
     }
+
+    @Override
+    public boolean canUndo() {
+        return true;
+    }
 }

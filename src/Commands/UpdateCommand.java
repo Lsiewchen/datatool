@@ -42,7 +42,7 @@ public class UpdateCommand implements Command {
      */
     public UpdateCommand(Receiver receiver, String payload) {
         this.receiver = receiver;
-        this.payload = payload;
+        this.payload = Command.sanitizePayload(payload);
     }
 
     /**
@@ -61,7 +61,9 @@ public class UpdateCommand implements Command {
 
         this.data1 = Command.convertTitleCase(datas[1]);
         this.data2 = datas.length > 2 ? Command.convertTitleCase(datas[2]) : this.data2;
-        this.data3 = datas.length > 3 ? datas[3] : this.data3;
+        this.data3 = datas.length > 3 ?
+                (datas[3].contains("@") ? datas[3] : Command.convertTitleCase(datas[3]))
+                : this.data3;
         if (data3 != null) {
             Command.isValidEmailFormat(data3);
         }
@@ -77,6 +79,11 @@ public class UpdateCommand implements Command {
     public void undo() {
         String[] datas = oldData.split(" ");
         receiver.update(index, datas[0], datas[1], datas[2]);
+    }
+
+    @Override
+    public boolean canUndo() {
+        return true;
     }
 }
 

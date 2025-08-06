@@ -18,9 +18,7 @@ public class Invoker {
         for (Command command : cmdToExecute) {
             try {
                 command.execute();
-                if (command.getClass() == AddCommand.class ||
-                        command.getClass() == UpdateCommand.class ||
-                        command.getClass() == DeleteCommand.class) {
+                if (command.canUndo()) {
                     history.push(command);
                 }
             } catch (InvalidPayload | InvalidEmailFormat e) {

@@ -24,6 +24,8 @@ public interface Command {
      */
     void undo();
 
+    boolean canUndo();
+
     static String convertTitleCase(String title) {
         return  title.substring(0, 1).toUpperCase() + title.substring(1);
     }
@@ -35,5 +37,11 @@ public interface Command {
         if (!matcher.find()) {
             throw new InvalidEmailFormat("Email format is invalid.");
         }
+    }
+
+    static String sanitizePayload(String payload) {
+        return payload.replace("\n", "\\n")
+                .replace("\t", "\\t")
+                .replace("\r", "\\r");
     }
 }

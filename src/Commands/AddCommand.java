@@ -32,7 +32,7 @@ public class AddCommand implements Command {
      */
     public AddCommand(Receiver receiver, String payload) {
         this.receiver = receiver;
-        this.payload = payload;
+        this.payload = Command.sanitizePayload(payload);
     }
 
     /**
@@ -47,7 +47,7 @@ public class AddCommand implements Command {
         }
         this.data1 = Command.convertTitleCase(datas[0]);
         this.data2 = Command.convertTitleCase(datas[1]);
-        this.data3 = datas[2];
+        this.data3 = datas[2].contains("@") ? datas[2] : Command.convertTitleCase(datas[2]);
         Command.isValidEmailFormat(data3);
         receiver.add(data1, data2, data3);
         System.out.println("add");
@@ -56,5 +56,10 @@ public class AddCommand implements Command {
     @Override
     public void undo() {
         receiver.delete(receiver.getDataStoreSize()-1); // calls delete on last index
+    }
+
+    @Override
+    public boolean canUndo() {
+        return true;
     }
 }

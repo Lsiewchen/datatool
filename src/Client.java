@@ -74,7 +74,7 @@ public class Client {
     public static void main(String[] args) {
         Receiver receiver = new Receiver();
         Command commandAdd1 = new AddCommand(receiver, "first_name last_name email");
-        Command commandAdd2 = new AddCommand(receiver, "7ohn Doe simple@example.com");
+        Command commandAdd2 = new AddCommand(receiver, "7ohn doe simple@example.com");
         Command commandAdd3 = new AddCommand(receiver, "Hanna Moon tetter.tots@potatoesarelife.com");
         Command commandAdd4 = new AddCommand(receiver, "Ah Boon green-tea@teaforlife.com");
         Command commandList1 = new ListCommand(receiver);
