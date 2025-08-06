@@ -71,19 +71,27 @@ public class Client {
     }*/
 
     //Undo
-    /*public static void main(String[] args) {
+    public static void main(String[] args) {
         Receiver receiver = new Receiver();
-        Command commandAdd1 = new AddCommand(receiver, "John 1abc-def.ghi@example.com");
-        Command commandAdd2 = new AddCommand(receiver, "Hanna Moon 2abc-_def@example.com");
-        Command commandDelete1 = new DeleteCommand(receiver,"1");
-        Command commandUndo1 = new UndoCommand(receiver, history);
-        Command commandUpdate1 = new UpdateCommand(receiver, "2 Update Moon 2abc-_def@example.com");
+        Command commandAdd1 = new AddCommand(receiver, "first_name last_name email");
+        Command commandAdd2 = new AddCommand(receiver, "7ohn Doe simple@example.com");
+        Command commandAdd3 = new AddCommand(receiver, "Hanna Moon tetter.tots@potatoesarelife.com");
+        Command commandAdd4 = new AddCommand(receiver, "Ah Boon green-tea@teaforlife.com");
         Command commandList1 = new ListCommand(receiver);
-        Command[] commands = {commandAdd1, commandAdd2, commandDelete1, commandUndo1, commandUpdate1, commandList1};
+        Command commandUpdate1 = new UpdateCommand(receiver, "3 Adam Moon tetter.tots@potatoesarelife.com");
+        Command commandList2 = new ListCommand(receiver);
+        Command commandUpdate2 = new UpdateCommand(receiver, "1 blue bell ice-cream@alaskaFields.org");
+        Command commandDelete1 = new DeleteCommand(receiver,"1");
+        Command commandList3 = new ListCommand(receiver);
+        Command commandUndo1 = new UndoCommand(receiver, history);
+        Command commandList4 = new ListCommand(receiver);
+        Command commandList5 = new ListCommand(receiver);
 
+        Command[] commands = {commandAdd1, commandAdd2, commandAdd3, commandAdd4,
+                commandList1, commandUpdate1, commandList2, commandUpdate2,
+                commandList3, commandDelete1, commandList4, commandUndo1, commandList5};
         Invoker.setCommandsForExecution(commands);
         Invoker.executeCommand(history);
-
         receiver.storeToFile();
-    }*/
+    }
 }

@@ -16,7 +16,6 @@ public interface Command {
     /**
      * Executes the command logic by delegating to the receiver and records itself in
      * the provided history stack (if needed - Add, Delete and Update).
-     * @param history
      */
     void execute() throws InvalidPayload, InvalidEmailFormat;
 
@@ -31,7 +30,7 @@ public interface Command {
 
     static void isValidEmailFormat(String email) throws InvalidEmailFormat {
         Pattern pattern = Pattern.compile
-                ("^\\w+(?:[.-]?\\w+)*@[a-zA-Z0-9]+(?:[.-]?[a-zA-Z0-9]+)*\\.[a-z]{2,3}$");
+                ("^(\\w+(?:[.-]?\\w+)*@[a-zA-Z0-9]+(?:[.-]?[a-zA-Z0-9]+)*\\.[a-z]{2,3}|\\w+)$");
         Matcher matcher = pattern.matcher(email);
         if (!matcher.find()) {
             throw new InvalidEmailFormat("Email format is invalid.");
