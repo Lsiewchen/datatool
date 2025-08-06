@@ -100,25 +100,13 @@ public class Client {
         Command commandAdd1 = new AddCommand(receiver, "fiRsT_NamE last_name emAil");
         Command commandAdd2 = new AddCommand(receiver, "7ohn doe simple@example.com");
         Command commandAdd3 = new AddCommand(receiver, "Hanna Moon tetter.tots@potatoesarelife.com");
-        Command commandAdd4 = new DeleteCommand(receiver, "2");
+        Command commandUpdate1 = new UpdateCommand(receiver, "3 Hanna Moon email");
         Command commandList2 = new ListCommand(receiver);
 
-        Command[] commands1 = {commandAdd1, commandAdd2, commandAdd3, commandList2};
+        Command[] commands1 = {commandAdd1, commandAdd2, commandAdd3, commandUpdate1, commandList2};
         Invoker.setCommandsForExecution(commands1);
         Invoker.executeCommand(history);
 
-        history.push(commandAdd4);
-        Command commandUndo1 = new UndoCommand(receiver, history);
-        Command commandUndo2 = new UndoCommand(receiver, history);
-        Command commandUndo3 = new UndoCommand(receiver, history);
-        Command commandUndo4 = new UndoCommand(receiver, history);
-        Command commandUndo5 = new UndoCommand(receiver, history);
-        Command commandList1 = new ListCommand(receiver);
-
-        Command[] commands2 = {commandUndo1, commandUndo2, commandUndo3,
-                commandUndo4, commandUndo5, commandList1};
-        Invoker.setCommandsForExecution(commands2);
-        Invoker.executeCommand(history);
 //        receiver.storeToFile();
     }
 }
