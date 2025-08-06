@@ -38,12 +38,9 @@ public class AddCommand implements Command {
     /**
      * Executes the add command by pushing itself onto the command history stack
      * and delegating the add action to the receiver with parsed data.
-     *
-     * @param history the command history stack that logs this command
-     *                for future undo reference
      */
     @Override
-    public void execute(Stack<Command> history) throws InvalidPayload, InvalidEmailFormat {
+    public void execute() throws InvalidPayload, InvalidEmailFormat {
         String[] datas = payload.split(" ");
         if (datas.length != 3) {
             throw new InvalidPayload("Incorrect payload format.");
@@ -53,7 +50,6 @@ public class AddCommand implements Command {
         this.data3 = datas[2];
         Command.isValidEmailFormat(data3);
         receiver.add(data1, data2, data3);
-        history.push(this);
         System.out.println("add");
     }
 

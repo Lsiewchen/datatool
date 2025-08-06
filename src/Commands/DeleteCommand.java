@@ -43,14 +43,11 @@ public class DeleteCommand implements Command {
     /**
      * Executes the delete command by retrieving the original data from the specified index,
      * pushing this command to the history stack, and instructing the receiver to perform deletion.
-     *
-     * @param history the command history stack that tracks this command for possible undo operations
      */
     @Override
-    public void execute(Stack<Command> history) {
+    public void execute() {
         this.oldData = receiver.retrieveLine(index); // stores data that was deleted
         receiver.delete(index);
-        history.push(this);
         System.out.println("delete");
     }
 

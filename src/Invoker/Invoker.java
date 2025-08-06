@@ -17,7 +17,12 @@ public class Invoker {
     public static void executeCommand(Stack<Command> history) {
         for (Command command : cmdToExecute) {
             try {
-                command.execute(history);
+                command.execute();
+                if (command.getClass() == AddCommand.class ||
+                        command.getClass() == UpdateCommand.class ||
+                        command.getClass() == DeleteCommand.class) {
+                    history.push(command);
+                }
             } catch (InvalidPayload | InvalidEmailFormat e) {
                 System.out.println(e.getMessage());
             } catch (EmptyStackException e) {

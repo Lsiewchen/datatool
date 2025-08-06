@@ -18,7 +18,7 @@ public interface Command {
      * the provided history stack (if needed - Add, Delete and Update).
      * @param history
      */
-    void execute(Stack<Command> history) throws InvalidPayload, InvalidEmailFormat;
+    void execute() throws InvalidPayload, InvalidEmailFormat;
 
     /**
      * Reverts the effects of a previously executed command from the following list (Add, Delete and Update).

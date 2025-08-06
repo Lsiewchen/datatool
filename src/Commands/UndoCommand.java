@@ -26,19 +26,17 @@ public class UndoCommand implements Command {
      * Constructor for UndoCommand with specified receiver.
      * @param receiver the receiver responsible for undo action
      */
-    public UndoCommand(Receiver receiver){
+    public UndoCommand(Receiver receiver, Stack<Command> history){
         this.receiver = receiver;
+        this.history = history;
     }
 
     /**
      * Executes the command by getting the latest command from the
      * history stack and then executing their relevant undo methods.
-     *
-     * @param history provides the command history stack from which
-     * the most recent command is retrieved and undone
      */
     @Override
-    public void execute(Stack<Command> history) {
+    public void execute() {
         if (history.isEmpty()){
             throw new EmptyStackException();
         }

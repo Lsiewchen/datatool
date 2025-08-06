@@ -29,10 +29,9 @@ public class ListCommand implements Command {
      *
      * The provided history stack is not used by this command, but is included to
      * maintain consistency with the command interface (requirements for Overriding).
-     * @param history command history stack
      */
     @Override
-    public void execute(Stack<Command> history) {
+    public void execute() {
         receiver.list();
     }
 

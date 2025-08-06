@@ -71,12 +71,12 @@ public class Client {
     }*/
 
     //Undo
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         Receiver receiver = new Receiver();
         Command commandAdd1 = new AddCommand(receiver, "John 1abc-def.ghi@example.com");
         Command commandAdd2 = new AddCommand(receiver, "Hanna Moon 2abc-_def@example.com");
         Command commandDelete1 = new DeleteCommand(receiver,"1");
-        Command commandUndo1 = new UndoCommand(receiver);
+        Command commandUndo1 = new UndoCommand(receiver, history);
         Command commandUpdate1 = new UpdateCommand(receiver, "2 Update Moon 2abc-_def@example.com");
         Command commandList1 = new ListCommand(receiver);
         Command[] commands = {commandAdd1, commandAdd2, commandDelete1, commandUndo1, commandUpdate1, commandList1};
@@ -85,5 +85,5 @@ public class Client {
         Invoker.executeCommand(history);
 
         receiver.storeToFile();
-    }
+    }*/
 }

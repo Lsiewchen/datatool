@@ -49,11 +49,9 @@ public class UpdateCommand implements Command {
      * Executes the update command by saving the current data,
      * pushing this command to the history stack, and instructing the receiver
      * to perform the update operation with the parsed data.
-     *
-     * @param history the command history stack for tracking commands and enabling undo
      */
     @Override
-    public void execute(Stack<Command> history) throws InvalidPayload, InvalidEmailFormat {
+    public void execute() throws InvalidPayload, InvalidEmailFormat {
         String[] datas =  payload.split(" ");
         if (datas.length > 4) {
             throw new InvalidPayload("Incorrect payload!");
@@ -68,7 +66,6 @@ public class UpdateCommand implements Command {
             Command.isValidEmailFormat(data3);
         }
         receiver.update(index, data1, data2, data3);
-        history.push(this);
         System.out.println("update");
     }
 
