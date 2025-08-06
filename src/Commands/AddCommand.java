@@ -22,6 +22,7 @@ public class AddCommand implements Command {
      * Variable containing the segments of input data from the payload.
      */
     private String data1, data2, data3, payload;
+    private boolean isExecuted = false;
 
     /**
      * Constructor for AddCommand with specified receiver and payload string.
@@ -50,6 +51,7 @@ public class AddCommand implements Command {
         this.data3 = datas[2].contains("@") ? datas[2] : Command.convertTitleCase(datas[2]);
         Command.isValidEmailFormat(data3);
         receiver.add(data1, data2, data3);
+        this.isExecuted = true;
         System.out.println("add");
     }
 
@@ -61,5 +63,10 @@ public class AddCommand implements Command {
     @Override
     public boolean canUndo() {
         return true;
+    }
+
+    @Override
+    public boolean isExecuted() {
+        return isExecuted;
     }
 }

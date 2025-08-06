@@ -33,6 +33,8 @@ public class UpdateCommand implements Command {
      */
     private String oldData;
 
+    private boolean isExecuted = false;
+
     /**
      * Constructor for UpdateCommand with specified receiver and payload string.
      * Extracts the index and data segments required for update from payload.
@@ -68,6 +70,7 @@ public class UpdateCommand implements Command {
             Command.isValidEmailFormat(data3);
         }
         receiver.update(index, data1, data2, data3);
+        this.isExecuted = true;
         System.out.println("update");
     }
 
@@ -84,6 +87,11 @@ public class UpdateCommand implements Command {
     @Override
     public boolean canUndo() {
         return true;
+    }
+
+    @Override
+    public boolean isExecuted() {
+        return isExecuted;
     }
 }
 

@@ -28,6 +28,8 @@ public class DeleteCommand implements Command {
      */
     private String oldData;
 
+    private boolean isExecuted = false;
+
     /**
      * Constructor for DeleteCommand with specified receiver and payload.
      * Uses the payload to determine the target index for deletion.
@@ -48,6 +50,7 @@ public class DeleteCommand implements Command {
     public void execute() {
         this.oldData = receiver.retrieveLine(index); // stores data that was deleted
         receiver.delete(index);
+        this.isExecuted = true;
         System.out.println("delete");
     }
 
@@ -64,5 +67,10 @@ public class DeleteCommand implements Command {
     @Override
     public boolean canUndo() {
         return true;
+    }
+
+    @Override
+    public boolean isExecuted() {
+        return isExecuted;
     }
 }

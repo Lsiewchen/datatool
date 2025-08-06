@@ -40,6 +40,9 @@ public class UndoCommand implements Command {
         if (history.isEmpty()){
             throw new EmptyStackException();
         }
+        while (!history.peek().isExecuted()) {
+            history.pop(); //not executed
+        }
         history.pop().undo();
         System.out.println("undo");
     }
@@ -54,5 +57,10 @@ public class UndoCommand implements Command {
     @Override
     public boolean canUndo() {
         return false;
+    }
+
+    @Override
+    public boolean isExecuted() {
+        return canUndo();
     }
 }

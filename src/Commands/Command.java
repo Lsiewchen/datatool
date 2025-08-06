@@ -26,6 +26,8 @@ public interface Command {
 
     boolean canUndo();
 
+    boolean isExecuted();
+
     static String convertTitleCase(String title) {
         return  title.substring(0, 1).toUpperCase() + title.substring(1);
     }

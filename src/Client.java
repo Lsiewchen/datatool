@@ -71,7 +71,7 @@ public class Client {
     }*/
 
     //Undo
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         Receiver receiver = new Receiver();
         Command commandAdd1 = new AddCommand(receiver, "first_name last_name email");
         Command commandAdd2 = new AddCommand(receiver, "7ohn doe simple@example.com");
@@ -93,5 +93,27 @@ public class Client {
         Invoker.setCommandsForExecution(commands);
         Invoker.executeCommand(history);
         receiver.storeToFile();
+    }*/
+
+    public static void main(String[] args) {
+        Receiver receiver = new Receiver();
+        Command commandAdd1 = new AddCommand(receiver, "first_name last_name email");
+        Command commandAdd2 = new AddCommand(receiver, "7ohn doe simple@example.com");
+        Command commandAdd3 = new AddCommand(receiver, "Hanna Moon tetter.tots@potatoesarelife.com");
+        Command commandAdd4 = new DeleteCommand(receiver, "2");
+        Command commandList2 = new ListCommand(receiver);
+
+        Command[] commands1 = {commandAdd1, commandAdd2, commandAdd3, commandList2};
+        Invoker.setCommandsForExecution(commands1);
+        Invoker.executeCommand(history);
+
+        history.push(commandAdd4);
+        Command commandUndo1 = new UndoCommand(receiver, history);
+        Command commandList1 = new ListCommand(receiver);
+
+        Command[] commands2 = {commandUndo1, commandList1};
+        Invoker.setCommandsForExecution(commands2);
+        Invoker.executeCommand(history);
+//        receiver.storeToFile();
     }
 }

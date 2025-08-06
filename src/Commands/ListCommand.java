@@ -45,4 +45,9 @@ public class ListCommand implements Command {
     public boolean canUndo() {
         return false;
     }
+
+    @Override
+    public boolean isExecuted() {
+        return canUndo();
+    }
 }
