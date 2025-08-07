@@ -1,39 +1,27 @@
 package CustomExceptions;
 
+/**
+ * Container class for custom exceptions used across command operations.
+ * Each nested class represents a specific failure mode encountered during
+ * command execution.
+ */
+
 public class Exceptions {
-    // Index not Found (For update and delete)
 
-    public class IndexNotFound extends Exception {
-        IndexNotFound(String msg) {
-            super(msg);
-        }
-    }
-
-    // Too many arguments (For add and update)
+    /**
+     * Thrown when a command receives too many arguments.
+     */
     public static class InvalidPayload extends Exception {
         public InvalidPayload(String msg) {
             super(msg);
         }
     }
 
-
-    // Empty List (For list)
-    public class EmptyList extends Exception {
-        EmptyList(String msg) {
-            super(msg);
-        }
-    }
-
-
-    // Empty history (For undo)
-    public class NothingToUndo extends Exception {
-        NothingToUndo(String msg) {
-            super(msg);
-        }
-    }
-
-    public static class InvalidEmailFormat extends Exception {
-        public InvalidEmailFormat(String msg) {
+    /**
+     * Thrown when input data does not conform to the expected format.
+     */
+    public static class InvalidFormat extends Exception {
+        public InvalidFormat(String msg) {
             super(msg);
         }
     }
