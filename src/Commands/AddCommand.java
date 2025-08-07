@@ -1,6 +1,7 @@
 package Commands;
 
-import CustomExceptions.Exceptions.*;
+import CustomExceptions.InvalidPayloadException;
+import CustomExceptions.InvalidFormatException;
 import Receiver.Receiver;
 
 /**
@@ -40,14 +41,14 @@ public class AddCommand implements Command {
 
     /**
      * Executes the add command by delegating the add action to the receiver with parsed data.
-     * @throws InvalidPayload User inputs a payload that does fit for the Add command
-     * @throws InvalidFormat User inputs an invalid input for data3 (Email field)
+     * @throws InvalidPayloadException User inputs a payload that does fit for the Add command
+     * @throws InvalidFormatException User inputs an invalid input for data3 (Email field)
      */
     @Override
-    public void execute() throws InvalidPayload, InvalidFormat {
+    public void execute() throws InvalidPayloadException, InvalidFormatException {
         String[] datas = payload.split(" ");
         if (datas.length != 3) {
-            throw new InvalidPayload("Incorrect payload format.");
+            throw new InvalidPayloadException("Incorrect payload format.");
         }
         this.data1 = Command.convertTitleCase(datas[0]);
         this.data2 = Command.convertTitleCase(datas[1]);

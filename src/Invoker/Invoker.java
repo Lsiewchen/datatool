@@ -1,7 +1,8 @@
 package Invoker;
 
 import Commands.*;
-import CustomExceptions.Exceptions.*;
+import CustomExceptions.InvalidFormatException;
+import CustomExceptions.InvalidPayloadException;
 
 import java.util.EmptyStackException;
 import java.util.Stack;
@@ -38,7 +39,7 @@ public class Invoker {
                 if (command.canUndo()) {
                     history.push(command);
                 }
-            } catch (InvalidPayload | InvalidFormat e) {
+            } catch (InvalidPayloadException | InvalidFormatException e) {
                 System.out.println(e.getMessage());
             } catch (EmptyStackException e) {
                 System.out.println("Error: Nothing to undo.");

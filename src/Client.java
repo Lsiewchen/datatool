@@ -111,8 +111,6 @@ public class Client {
 
         receiver.storeToFile();
 
-        Receiver receiver2 = new Receiver();
-
         Invoker.setCommandsForExecution(commands1);
         Invoker.executeCommand(history);
 

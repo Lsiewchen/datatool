@@ -1,9 +1,8 @@
 package Commands;
 
-import CustomExceptions.Exceptions.*;
+import CustomExceptions.InvalidFormatException;
+import CustomExceptions.InvalidPayloadException;
 import Receiver.Receiver;
-
-import java.util.Stack;
 
 /**
  * An implementation of the Command interface responsible for performing
@@ -54,15 +53,15 @@ public class UpdateCommand implements Command {
     /**
      * Executes the update command by saving the current data and instructing the receiver
      * to perform the update operation with the parsed data.
-     * @throws InvalidPayload if the provided payload has more inputs than expected
-     * @throws InvalidFormat if the 4th entry in the payload i.e. email field is invalid
+     * @throws InvalidPayloadException if the provided payload has more inputs than expected
+     * @throws InvalidFormatException if the 4th entry in the payload i.e. email field is invalid
      */
     @Override
-    public void execute() throws InvalidPayload, InvalidFormat {
+    public void execute() throws InvalidPayloadException, InvalidFormatException {
         String[] datas =  payload.split(" "); // splitting of payload into individual segments
 
         if (datas.length > 4) { // ensure that the payload is valid, reject payloads that are too big
-            throw new InvalidPayload("Incorrect payload!");
+            throw new InvalidPayloadException("Incorrect payload!");
         }
 
         Command.isValidIndexFormat(datas[0]);

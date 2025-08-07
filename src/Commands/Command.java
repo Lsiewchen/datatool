@@ -1,6 +1,7 @@
 package Commands;
 
-import CustomExceptions.Exceptions.*;
+import CustomExceptions.InvalidFormatException;
+import CustomExceptions.InvalidPayloadException;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -14,10 +15,10 @@ public interface Command {
 
     /**
      * Executes the command logic delegated by the receiver.
-     * @throws InvalidPayload if the payload is not suitable with the command
-     * @throws InvalidFormat if the format in the email field of the payload is invalid
+     * @throws InvalidPayloadException if the payload is not suitable with the command
+     * @throws InvalidFormatException if the format in the email field of the payload is invalid
      */
-    void execute() throws InvalidPayload, InvalidFormat;
+    void execute() throws InvalidPayloadException, InvalidFormatException;
 
     /**
      * Reverts the effects of a previously executed command from the following list (Add, Delete and Update).
@@ -49,14 +50,14 @@ public interface Command {
     /**
      * Checks if the input, email, format is of a valid format
      * @param email String to be checked
-     * @throws InvalidFormat if the String provided does not fulfil the requirements as mentioned in error message
+     * @throws InvalidFormatException if the String provided does not fulfil the requirements as mentioned in error message
      */
-    static void isValidFormat(String email) throws InvalidFormat {
+    static void isValidFormat(String email) throws InvalidFormatException {
         Pattern pattern = Pattern.compile
                 ("^(\\w+(?:[.-]?\\w+)*@[a-zA-Z0-9]+(?:[.-]?[a-zA-Z0-9]+)*\\.[a-z]{2,3}|\\w+)$");
         Matcher matcher = pattern.matcher(email);
         if (!matcher.find()) {
-            throw new InvalidFormat("Format is invalid. Please provide an email address or Latin letters (case " +
+            throw new InvalidFormatException("Format is invalid. Please provide an email address or Latin letters (case " +
                     "insensitive), digits 0 to 9 and\n" +
                     "underscores");
         }
@@ -65,14 +66,14 @@ public interface Command {
     /**
      * Checks if the index provided is of a valid format
      * @param index the index to be checked
-     * @throws InvalidPayload if the index provided is not of a valid format i.e. not integer
+     * @throws InvalidPayloadException if the index provided is not of a valid format i.e. not integer
      */
-    static void isValidIndexFormat(String index) throws InvalidPayload {
+    static void isValidIndexFormat(String index) throws InvalidPayloadException {
         Pattern pattern = Pattern.compile
                 ("^\\d+$");
         Matcher matcher = pattern.matcher(index);
         if (!matcher.find()) {
-            throw new InvalidPayload("Index is invalid.");
+            throw new InvalidPayloadException("Index is invalid.");
         }
     }
 

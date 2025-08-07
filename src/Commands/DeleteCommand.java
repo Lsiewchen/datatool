@@ -1,6 +1,6 @@
 package Commands;
 
-import CustomExceptions.Exceptions.*;
+import CustomExceptions.InvalidPayloadException;
 import Receiver.Receiver;
 
 /**
@@ -53,10 +53,10 @@ public class DeleteCommand implements Command {
     /**
      * Executes the delete command by retrieving the original data from the specified index,
      * and instructing the receiver to perform deletion.
-     * @throws InvalidPayload if the index provided is of an incorrect format
+     * @throws InvalidPayloadException if the index provided is of an incorrect format
      */
     @Override
-    public void execute() throws InvalidPayload {
+    public void execute() throws InvalidPayloadException {
         Command.isValidIndexFormat(payload);
         this.index = Integer.parseInt(payload) - 1;
         this.oldData = receiver.retrieveLine(index); // stores data that was deleted
