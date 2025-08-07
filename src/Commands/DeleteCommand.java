@@ -3,8 +3,6 @@ package Commands;
 import CustomExceptions.Exceptions.*;
 import Receiver.Receiver;
 
-import java.util.Stack;
-
 /**
  * An implementation of the Command interface responsible for performing
  * a delete operation via the receiver. This command takes an index from
@@ -14,12 +12,12 @@ import java.util.Stack;
 public class DeleteCommand implements Command {
 
     /**
-     * Variable containing the receiver responsible for handling delete and add operations.
+     * Variable containing the receiver responsible for handling operations.
      */
     private Receiver receiver;
 
     /**
-     * Variable containing the zero-based index of the entry to be deleted.
+     * Variable containing the index of the entry to be deleted.
      */
     private int index;
 
@@ -28,8 +26,16 @@ public class DeleteCommand implements Command {
      * used to restore the entry during an undo operation.
      */
     private String oldData;
+
+    /**
+     * Variable used to contain the payload
+     */
     private String payload;
 
+    /**
+     * Variable to indicate if the command has been executed or not
+     * (used to prevent illegal undo situations)
+     */
     private boolean isExecuted = false;
 
     /**
@@ -37,7 +43,7 @@ public class DeleteCommand implements Command {
      * Uses the payload to determine the target index for deletion.
      *
      * @param receiver the receiver responsible for executing the delete logic
-     * @param payload a string representing the index to be deleted (1-based) - converted to zero-based for index
+     * @param payload a string representing the index to be deleted (1-based)
      */
     public DeleteCommand(Receiver receiver, String payload){
         this.receiver = receiver;
@@ -46,7 +52,8 @@ public class DeleteCommand implements Command {
 
     /**
      * Executes the delete command by retrieving the original data from the specified index,
-     * pushing this command to the history stack, and instructing the receiver to perform deletion.
+     * and instructing the receiver to perform deletion.
+     * @throws InvalidPayload if the index provided is of an incorrect format
      */
     @Override
     public void execute() throws InvalidPayload {
@@ -68,11 +75,20 @@ public class DeleteCommand implements Command {
         receiver.add(index, datas[0], datas[1], datas[2]); // overloaded add method in receiver to insert at old index
     }
 
+    /**
+     * Function that informs whether the command is undoable or not
+     * @return true if the command can be undone, false otherwise
+     */
     @Override
     public boolean canUndo() {
         return true;
     }
 
+    /**
+     * Function that informs whether the command has been executed.
+     * Prevents illegal undo operations injected to the stack
+     * @return true if the command has been executed, false otherwise
+     */
     @Override
     public boolean isExecuted() {
         return isExecuted;

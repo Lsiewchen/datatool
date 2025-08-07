@@ -2,8 +2,6 @@ package Commands;
 
 import Receiver.Receiver;
 
-import java.util.Stack;
-
 /**
  * An implementation of the Command interface that delegates
  * the list operation to the receiver for listing of employee
@@ -12,7 +10,7 @@ import java.util.Stack;
 public class ListCommand implements Command {
 
     /**
-     * Variable containing the receiver that handles the actual list operation.
+     * Variable containing the receiver that handles the list operation.
      */
     private Receiver receiver;
 
@@ -41,11 +39,20 @@ public class ListCommand implements Command {
     @Override
     public void undo() {}
 
+    /**
+     * Function that informs where the command is undoable to enable undo
+     * @return false all the time because list operations need not be undone
+     */
     @Override
     public boolean canUndo() {
         return false;
     }
 
+    /**
+     * Function that informs whether the command has been executed.
+     * Prevents illegal undo operations injected to the stack
+     * @return false as we do not need undo list operations
+     */
     @Override
     public boolean isExecuted() {
         return canUndo();

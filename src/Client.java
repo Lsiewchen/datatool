@@ -101,7 +101,7 @@ public class Client {
         Command commandAdd2 = new AddCommand(receiver, "7ohn doe simple@example.com");
         Command commandAdd3 = new AddCommand(receiver, "Hanna Moon tetter.tots@potatoesarelife.com");
         Command commandUpdate1 = new UpdateCommand(receiver, "3y Hanna Moon email");
-        Command commandDelete1 = new DeleteCommand(receiver, "3 Hanna Moon email");
+        Command commandDelete1 = new DeleteCommand(receiver, "1");
         Command commandList2 = new ListCommand(receiver);
 
         Command[] commands1 = {commandAdd1, commandAdd2, commandAdd3,
@@ -109,6 +109,13 @@ public class Client {
         Invoker.setCommandsForExecution(commands1);
         Invoker.executeCommand(history);
 
-//        receiver.storeToFile();
+        receiver.storeToFile();
+
+        Receiver receiver2 = new Receiver();
+
+        Invoker.setCommandsForExecution(commands1);
+        Invoker.executeCommand(history);
+
+        receiver.storeToFile();
     }
 }

@@ -13,7 +13,7 @@ import java.util.Stack;
 public class UpdateCommand implements Command {
 
     /**
-     * Variable containing the index of the entry to be updated (zero-based).
+     * Variable containing the index of the entry to be updated.
      */
     private int index;
 
@@ -54,9 +54,11 @@ public class UpdateCommand implements Command {
     /**
      * Executes the update command by saving the current data and instructing the receiver
      * to perform the update operation with the parsed data.
+     * @throws InvalidPayload if the provided payload has more inputs than expected
+     * @throws InvalidFormat if the 4th entry in the payload i.e. email field is invalid
      */
     @Override
-    public void execute() throws InvalidPayload, InvalidEmailFormat {
+    public void execute() throws InvalidPayload, InvalidFormat {
         String[] datas =  payload.split(" "); // splitting of payload into individual segments
 
         if (datas.length > 4) { // ensure that the payload is valid, reject payloads that are too big
@@ -76,13 +78,13 @@ public class UpdateCommand implements Command {
 
         // Check if 4th entry in payload is valid format
         if (data3 != null) {
-            Command.isValidEmailFormat(data3);
+            Command.isValidFormat(data3);
         }
 
         // run update command if no exceptions caught above
         receiver.update(index, data1, data2, data3);
 
-        // command is executed, store it as true
+        // command is executed, change executed status to true
         this.isExecuted = true;
         System.out.println("update");
     }
@@ -99,7 +101,7 @@ public class UpdateCommand implements Command {
 
     /**
      * This function returns true if the command is undoable if needed
-     * @return boolean value of true if the command is undoable and false otherwise
+     * @return boolean value of true if the command is undoable
      */
     @Override
     public boolean canUndo() {
