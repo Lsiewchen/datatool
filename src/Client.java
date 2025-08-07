@@ -100,10 +100,12 @@ public class Client {
         Command commandAdd1 = new AddCommand(receiver, "fiRsT_NamE last_name emAil");
         Command commandAdd2 = new AddCommand(receiver, "7ohn doe simple@example.com");
         Command commandAdd3 = new AddCommand(receiver, "Hanna Moon tetter.tots@potatoesarelife.com");
-        Command commandUpdate1 = new UpdateCommand(receiver, "3 Hanna Moon email");
+        Command commandUpdate1 = new UpdateCommand(receiver, "3y Hanna Moon email");
+        Command commandDelete1 = new DeleteCommand(receiver, "3 Hanna Moon email");
         Command commandList2 = new ListCommand(receiver);
 
-        Command[] commands1 = {commandAdd1, commandAdd2, commandAdd3, commandUpdate1, commandList2};
+        Command[] commands1 = {commandAdd1, commandAdd2, commandAdd3,
+                commandUpdate1, commandDelete1, commandList2};
         Invoker.setCommandsForExecution(commands1);
         Invoker.executeCommand(history);
 

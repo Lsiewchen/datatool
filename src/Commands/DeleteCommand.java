@@ -1,5 +1,6 @@
 package Commands;
 
+import CustomExceptions.Exceptions.*;
 import Receiver.Receiver;
 
 import java.util.Stack;
@@ -27,6 +28,7 @@ public class DeleteCommand implements Command {
      * used to restore the entry during an undo operation.
      */
     private String oldData;
+    private String payload;
 
     private boolean isExecuted = false;
 
@@ -39,7 +41,7 @@ public class DeleteCommand implements Command {
      */
     public DeleteCommand(Receiver receiver, String payload){
         this.receiver = receiver;
-        this.index = Integer.parseInt(payload) - 1;
+        this.payload = payload;
     }
 
     /**
@@ -47,7 +49,9 @@ public class DeleteCommand implements Command {
      * pushing this command to the history stack, and instructing the receiver to perform deletion.
      */
     @Override
-    public void execute() {
+    public void execute() throws InvalidPayload {
+        Command.isValidIndexFormat(payload);
+        this.index = Integer.parseInt(payload) - 1;
         this.oldData = receiver.retrieveLine(index); // stores data that was deleted
         receiver.delete(index);
         this.isExecuted = true;

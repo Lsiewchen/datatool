@@ -42,6 +42,15 @@ public interface Command {
         }
     }
 
+    static void isValidIndexFormat(String index) throws InvalidPayload {
+        Pattern pattern = Pattern.compile
+                ("^\\d+$");
+        Matcher matcher = pattern.matcher(index);
+        if (!matcher.find()) {
+            throw new InvalidPayload("Index is invalid.");
+        }
+    }
+
     static String sanitizePayload(String payload) {
         return payload.replace("\n", "\\n")
                 .replace("\t", "\\t")

@@ -63,6 +63,7 @@ public class UpdateCommand implements Command {
             throw new InvalidPayload("Incorrect payload!");
         }
 
+        Command.isValidIndexFormat(datas[0]);
         this.index = Integer.parseInt(datas[0]) - 1; // changing from 1-based to zero-based
         this.oldData = receiver.retrieveLine(index); // retrieve index using the receiver method
 
