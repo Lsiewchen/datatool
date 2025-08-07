@@ -23,16 +23,20 @@ public class UpdateCommand implements Command {
     private Receiver receiver;
 
     /**
-     * Variable containing the segments of input data from the payload.
+     * Variable containing the incoming payload and the original data at the
+     * specified index, used for undoing the update.
      */
-    private String data1, data2, data3, payload;
+    private String payload, oldData;
 
     /**
-     * Variable containing the original data at the specified index,
-     * used for undoing the update.
+     * Variable containing the segments of input data from the payload.
      */
-    private String oldData;
+    private String data1, data2, data3;
 
+    /**
+     * Variable to indicate if the command has been executed or not
+     * (used to prevent illegal undo situations)
+     */
     private boolean isExecuted = false;
 
     /**
@@ -48,28 +52,36 @@ public class UpdateCommand implements Command {
     }
 
     /**
-     * Executes the update command by saving the current data,
-     * pushing this command to the history stack, and instructing the receiver
+     * Executes the update command by saving the current data and instructing the receiver
      * to perform the update operation with the parsed data.
      */
     @Override
     public void execute() throws InvalidPayload, InvalidEmailFormat {
-        String[] datas =  payload.split(" ");
-        if (datas.length > 4) {
+        String[] datas =  payload.split(" "); // splitting of payload into individual segments
+
+        if (datas.length > 4) { // ensure that the payload is valid, reject payloads that are too big
             throw new InvalidPayload("Incorrect payload!");
         }
-        this.index = Integer.parseInt(datas[0]) - 1;
-        this.oldData = receiver.retrieveLine(index); // stores data that was updated
 
+        this.index = Integer.parseInt(datas[0]) - 1; // changing from 1-based to zero-based
+        this.oldData = receiver.retrieveLine(index); // retrieve index using the receiver method
+
+        // Titlecase conversion for relevant data
         this.data1 = Command.convertTitleCase(datas[1]);
         this.data2 = datas.length > 2 ? Command.convertTitleCase(datas[2]) : this.data2;
         this.data3 = datas.length > 3 ?
                 (datas[3].contains("@") ? datas[3] : Command.convertTitleCase(datas[3]))
                 : this.data3;
+
+        // Check if 4th entry in payload is valid format
         if (data3 != null) {
             Command.isValidEmailFormat(data3);
         }
+
+        // run update command if no exceptions caught above
         receiver.update(index, data1, data2, data3);
+
+        // command is executed, store it as true
         this.isExecuted = true;
         System.out.println("update");
     }
@@ -84,11 +96,20 @@ public class UpdateCommand implements Command {
         receiver.update(index, datas[0], datas[1], datas[2]);
     }
 
+    /**
+     * This function returns true if the command is undoable if needed
+     * @return boolean value of true if the command is undoable and false otherwise
+     */
     @Override
     public boolean canUndo() {
         return true;
     }
 
+    /**
+     * This function returns true if the command has been executed if needed.
+     * Used in case of illegal undo situations
+     * @return boolean value of true if the command has been executed and false otherwise.
+     */
     @Override
     public boolean isExecuted() {
         return isExecuted;

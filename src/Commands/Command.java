@@ -8,14 +8,15 @@ import java.util.regex.Pattern;
 
 /**
  * This interface represents an executable command within a command pattern structure.
- * It supports a command history stack to facilitate rollback of commands.
  * Each command maintains the ability to execute its logic and reverse it through undo.
  */
 public interface Command {
 
+
     /**
-     * Executes the command logic by delegating to the receiver and records itself in
-     * the provided history stack (if needed - Add, Delete and Update).
+     * Executes the command logic by delegating to the receiver.
+     * @throws InvalidPayload if the payload is not suitable with the command
+     * @throws InvalidEmailFormat
      */
     void execute() throws InvalidPayload, InvalidEmailFormat;
 
